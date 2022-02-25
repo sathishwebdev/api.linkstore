@@ -66,8 +66,7 @@ UserSchema.methods.toAuthJson = function () {
     id: this.id,
     email: this.email,
     name: this.name,
-    links: this.links,
-    linkCount : this.linkCount,
+    linkCount : this.links.length,
     isVerified: this.isVerified
   };
 };

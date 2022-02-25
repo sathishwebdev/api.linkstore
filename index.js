@@ -8,6 +8,7 @@ app.use(require("./helpers/errorHandler"))
 app.use(require("./helpers/jwt")());
 
 app.use("/api/users", require("./routes/user.routes"));
+app.use("/api/links", require("./routes/link.routes"));
 
 
 app.get('/', (req, res)=>{res.send("LINK STORE")})
