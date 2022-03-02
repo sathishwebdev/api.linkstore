@@ -10,6 +10,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username:{
+    type: String,
+    required: true, 
+    unique : true
+  },
   email: {
     type: String,
     required: true,
@@ -22,6 +27,11 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   links:[],
+  sitemaps:[],
+  views:{
+    type: Number,
+    default : 0
+  },
   linkCount: {
     type: Number,
     default: 0,
@@ -60,13 +70,21 @@ UserSchema.methods.set_passwordHash = function (password) {
   this.passwordHash = bcrypt.hashSync(password, 10);
 };
 
+// SET USERNAME
+
+UserSchema.methods.set_username = function(email){
+  this.username = email.split('@')[0]
+}
+
 // GET USER TO AUTH JSON
 UserSchema.methods.toAuthJson = function () {
   return {
     id: this.id,
     email: this.email,
     name: this.name,
+    username: this.username,
     linkCount : this.links.length,
+    views : this.views,
     isVerified: this.isVerified
   };
 };

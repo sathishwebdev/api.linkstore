@@ -43,6 +43,8 @@ exports.registerUser = async (req, res) => {
       email: data.email,
       linkCount : 0
     });
+    // set username
+    user.set_username(data.email)
     // Set password
     user.set_passwordHash(data.password);
     user.VT_KEY = await VTGenerator(data);
@@ -73,7 +75,7 @@ exports.registerUser = async (req, res) => {
           res.status(400).send({result:false, message: err.message, mail: false})
       }
       else {           
-          res.status(200).send({result : true,message:`Request send to ${user.email}`, mail: true, data: user})
+          res.status(200).send({result : true,message:`Account Created - Verfication mail Sent`, mail: true, data: user})
           }
  })
   }
@@ -121,11 +123,11 @@ exports.loginUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     // Get Users from request
-    const { users } = req.body;
+    const { userId } = req.body;
     // Delete Users
-    await users.map(async (user) => {
-      await User.findByIdAndRemove(user.id);
-    });
+    
+      await User.findByIdAndRemove(userId);
+    
     // Resturn Response
     res.send({message:"Users Deleted Successfully", result: true, error: null});
   } catch (error) {

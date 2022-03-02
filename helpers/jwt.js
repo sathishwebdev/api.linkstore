@@ -12,7 +12,8 @@ const authJWT = () => {
   }).unless({
     path: [
       // Paths that does not need to be authenticated
-      { url: /\/api\/shorty\/redirect(.*)/, methods: ["GET", "OPTIONS"] },
+      { url: /\/api\/links\/redirect(.*)/, methods: ["GET", "OPTIONS"] },
+      { url: /\/api\/links\/user(.*)/, methods: ["GET", "OPTIONS"] },
       "/api/users/login",
       "/api/users/register",
       "/api/users/forgetpassword",
