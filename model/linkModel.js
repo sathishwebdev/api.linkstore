@@ -44,6 +44,7 @@ LinkSchema.methods.getLinkData = async function (link) {
     }
     catch(error){
         this.data = null
+        console.log(error)
     }
   };
 

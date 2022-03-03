@@ -68,12 +68,9 @@ exports.addLinks = async (req, res)=>{
 
         await link.getLinkData(url)
         await link.save()
-
         let user = await User.findById(userId)
-        let linkList = user.links
-        linkList = [...linkList, link]
-        user.links = linkList
-        link = await user.save()
+        link = await User.findByIdAndUpdate(userId, {links : [...user.links, link ]})
+        
 
 
         if (!link) {
