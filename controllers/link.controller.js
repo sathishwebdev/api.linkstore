@@ -37,15 +37,13 @@ exports.getLinkByUser = async (req, res) =>{
         const user = await User.findOne({username: userName})
           
 
-        if(!user){ res.status(400).send({ detail: "Error to get Link List" });}
+        if(!user){ res.status(400).send({ message: "Error to get Link List" });}
         else if(user.isVerified){  
-            let u = await User.findById(user._id) 
-            u.views++
-            await u.save()
-            res.send({result : true , error: false, message : "Got your Links", data: u.links});
+            let u = await User.findByIdAndUpdate(user._id,{views : user.views + 1} )
+            res.send({result : true , error: false, message : "Got your Links", data: {name : u.name, username: u.username, views: u.views}, urls: u.links});
         }
         else{
-            res.status(400).send({ detail: "Error to get Link List" })
+            res.status(400).send({ message: "Error to get Link List" })
         }
          
         
@@ -157,12 +155,9 @@ exports.redirectUrl = async(req, res)=>{
     await getUrlData.save()
 
     let userId  = getUrlData.by
-
-    let user = await User.findById(userId)
-    let [t] = user.links.filter(link=> link.shorturl === ShortId)
-    let i = user.links.indexOf(t)
-    user.links[i].views++
-    await user.save()
+    let links = await Link.find({by: userId})
+    let user = await User.findByIdAndUpdate(userId,{links : links})
+    
 
 
 
