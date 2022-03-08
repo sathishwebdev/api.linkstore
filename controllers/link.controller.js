@@ -40,6 +40,7 @@ exports.getLinkByUser = async (req, res) =>{
         if(!user){ res.status(400).send({ message: "Error to get Link List" });}
         else if(user.isVerified){
             let stamp = new Date()
+            console.log(stamp)
             let insightId = stamp.getTime()
             let date = stamp.toLocaleDateString('en-IN')
             let [filter] = user.insight.filter((item) => item.date === date )
