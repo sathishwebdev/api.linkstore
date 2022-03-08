@@ -43,7 +43,7 @@ exports.getLinkByUser = async (req, res) =>{
             
             let insightId = stamp.getTime()
             let date = stamp.toLocaleDateString('en-IN')
-            console.log(stamp, date)
+            console.log(stamp, date, stamp.toLocaleTimeString('en-IN'))
             let [filter] = user.insight.filter((item) => item.date === date )
             if(!filter){
                 user.insight =  [...user.insight, {
@@ -55,7 +55,7 @@ exports.getLinkByUser = async (req, res) =>{
                 }]
             }else{
                 user.insight[user.insight.indexOf(filter)].counts++
-                user.insight.lastUpdatedTimeStamp = stamp
+                user.insight[user.insight.indexOf(filter)].lastUpdatedTimeStamp = stamp
             }
                 
             let test = await user.save()
