@@ -35,12 +35,34 @@ exports.getLinkByUser = async (req, res) =>{
 
         //  get User
         const user = await User.findOne({username: userName})
-          
+        
 
         if(!user){ res.status(400).send({ message: "Error to get Link List" });}
-        else if(user.isVerified){  
-            let u = await User.findByIdAndUpdate(user._id,{views : user.views + 1} )
-            res.send({result : true , error: false, message : "Got your Links", data: {name : u.name, username: u.username, views: u.views}, urls: u.links});
+        else if(user.isVerified){
+            let stamp = new Date()
+            let insightId = stamp.getTime()
+            let date = stamp.toLocaleDateString('en-IN')
+            let [filter] = user.insight.filter((item) => item.date === date )
+            if(!filter){
+                user.insight =  [...user.insight, {
+                    insightId,
+                    date,
+                    timestamp : stamp,
+                    counts: 1
+                }]
+            }else{
+                user.insight[user.insight.indexOf(filter)].counts++
+            }
+                
+            let test = await user.save()
+            console.log(user.insight)
+
+            let u = await User.findByIdAndUpdate(user._id,{
+                views : user.views + 1, 
+                linkCount : user.links.length,
+                insight : [...user.insight]
+            } )
+            res.send({result : true , error: false, message : "Got your Links", data: {name : u.name, username: u.username, views: u.views, insight: u.insight}, urls: u.links});
         }
         else{
             res.status(400).send({ message: "Error to get Link List" })

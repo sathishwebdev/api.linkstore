@@ -27,6 +27,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   links:[],
+  insight:[],
   sitemaps:[],
   views:{
     type: Number,

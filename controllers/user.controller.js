@@ -41,7 +41,8 @@ exports.registerUser = async (req, res) => {
     let user = new User({
       name: data.name,
       email: data.email,
-      linkCount : 0
+      linkCount : 0,
+      insight: []
     });
     // set username
     user.set_username(data.email)
@@ -105,17 +106,17 @@ exports.loginUser = async (req, res) => {
 };
 
 // Get User List
-// exports.getUserList = async (req, res) => {
-//   try {
-//     // Get List
-//     const usersList = await User.find({});
-//     // Resturn Response
-//     if (!usersList) res.status(400).send({ detail: "Error to get User List" });
-//     res.send(usersList);
-//   } catch (error) {
-//     res.status(400).send({ detail: error });
-//   }
-// };
+exports.getUserInsight = async (req, res) => {
+  try {
+    // Get List
+    const user = await User.findById(req.params.userId);
+    // Resturn Response
+    if (!user) res.status(400).send({ result:false,message: "Error to get User List" });
+    res.send({result: true, data: user.insight});
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
+};
 
 // Delete Selected Users
 
