@@ -43,7 +43,7 @@ exports.getLinkByUser = async (req, res) =>{
             
             let insightId = stamp.getTime()
             let date = stamp.toLocaleDateString('en-IN')
-            console.log(stamp, date, stamp.toLocaleTimeString('en-IN'))
+            
             let [filter] = user.insight.filter((item) => item.date === date )
             if(!filter){
                 user.insight =  [...user.insight, {

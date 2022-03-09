@@ -112,7 +112,7 @@ exports.getUserInsight = async (req, res) => {
     const user = await User.findById(req.params.userId);
     // Resturn Response
     if (!user) res.status(400).send({ result:false,message: "Error to get User List" });
-    res.send({result: true, data: user.insight});
+    res.send({result: true, data: user.insight, views : user.views, links : user.links});
   } catch (error) {
     res.status(400).send({ message: error });
   }
