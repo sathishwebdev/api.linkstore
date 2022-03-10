@@ -57,9 +57,7 @@ exports.getLinkByUser = async (req, res) =>{
                 user.insight[user.insight.indexOf(filter)].counts++
                 user.insight[user.insight.indexOf(filter)].lastUpdatedTimeStamp = stamp
             }
-                
-            let test = await user.save()
-            console.log(user.insight)
+            // await user.save()
 
             let u = await User.findByIdAndUpdate(user._id,{
                 views : user.views + 1, 
